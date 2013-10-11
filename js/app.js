@@ -212,6 +212,10 @@ app.controller('splitItCtrl', function( $scope, Roomates, Transactions, DebtSett
 		$scope.transactions.push( transaction );
 	};
 
+	$scope.deleteTransaction = function( transaction ){
+		$scope.transactions.splice($scope.transactions.indexOf( transaction ), 1);
+	};
+
 	/**
 	 * Displays the transfers required to settled the debts incurred
 	 * by the transactions entered

@@ -48,6 +48,7 @@
 
 <div ng-repeat="t in transactions" id="transactions" class="panel" >
 	{{t.lender}} needs to be reimbursed for paying ${{t.amount}} for {{t.name}}. These peeps owe him: {{t.borrowers.join(', ')}}
+	<a ng-click='deleteTransaction(t)'>&times;</a>
 </div>
 
 <button class="button large expand" ng-click='settleDebts()'>Settle Up!</button>
