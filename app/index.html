@@ -13,14 +13,6 @@
 
     <form ng-submit="addTransaction(newTransaction)">
       <div class="row">
-        <div class="large-3 columns">
-          <label>What was it?</label>
-          <input ng-model='newTransaction.name' type="text" placeholder="A Cat" required>
-        </div>
-        <div class="large-2 columns">
-          <label>How much was it?</label>
-          <input ng-model='newTransaction.amount' required type="number" placeholder="$1,000,000">
-        </div>
         <div class="large-2 columns">
           <label>Who Paid?</label>
           <select
@@ -29,6 +21,14 @@
             ng-options='lender.name for lender in lenders'
           >
           </select>
+        </div>
+        <div class="large-3 columns">
+          <label>What was it?</label>
+          <input ng-model='newTransaction.name' type="text" placeholder="A Cat" required>
+        </div>
+        <div class="large-2 columns">
+          <label>How much was it?</label>
+          <input ng-model='newTransaction.amount' required type="number" placeholder="$1,000,000">
         </div>
         <div class="large-3 columns">
           <label>Split it between</label>
@@ -44,7 +44,7 @@
     <h1>Group Purchases:</h1>
 
     <div ng-repeat="t in transactions" id="transactions" class="panel" >
-      {{t.lender}} needs to be reimbursed for paying ${{t.amount}} for {{t.name}}. These peeps owe him: {{t.borrowers.join(', ')}}
+      {{t.lender}} paid ${{t.amount}} for {{t.name}}. {{t.borrowers.join(', ')}} owe him.
       <a ng-click='deleteTransaction(t)'>&times;</a>
     </div>
 
