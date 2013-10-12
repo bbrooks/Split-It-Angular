@@ -64,7 +64,7 @@ angular.module('splitItApp.services', [])
        * @param  array transactions An array of transactions ex.
        * { name: 'Spaceship', amount: 9000000, lender: 'Rosy', borrowers: ['Sam','Tom'] }
        *
-       * @return array All the transfers between two people that must occur to settle
+       * @return object All the transfers between two people that must occur to settle
        * debts incurred from the transactions.
        */
       transactions_to_transfers: function( transactions ) {
@@ -128,8 +128,6 @@ angular.module('splitItApp.services', [])
 
         // Calculate borrowers' share
         var share = amount / (borrowers.length + 1);
-        amount = amount - share;
-        share = amount / borrowers.length;
 
         _.each(borrowers, function (borrower) {
 
