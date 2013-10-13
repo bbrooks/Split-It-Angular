@@ -11,7 +11,7 @@
   <div ng-controller="TransactionsCtrl">
     <h1>What did you buy?</h1>
 
-    <form ng-submit="addTransaction(newTransaction)">
+    <form id="add-transaction-form" ng-submit="addTransaction(newTransaction)">
       <div class="row">
         <div class="large-2 columns">
           <label>Who Paid?</label>
@@ -44,10 +44,11 @@
     <h1>Group Purchases:</h1>
 
     Search: <input type="text" ng-model="transQuery">
-
-    <div ng-repeat="t in transactions | filter:transQuery" id="transactions" class="panel" >
-      {{t.lender}} paid ${{t.amount}} for {{t.name}}. {{t.borrowers.join(', ')}} owe him.
-      <a ng-click='deleteTransaction(t)'>&times;</a>
+    <div id="transactions">
+      <div ng-repeat="t in transactions | filter:transQuery" class="transaction panel">
+        {{t.lender}} paid ${{t.amount}} for {{t.name}}. {{t.borrowers.join(', ')}} owe him.
+        <a ng-click='deleteTransaction(t)'>&times;</a>
+      </div>
     </div>
 
     <button class="button large expand" ng-click='settleDebts()'>Settle Up!</button>
