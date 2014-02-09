@@ -1,0 +1,15 @@
+<ul class="person-list list-group">
+	<li class="list-group-item" ng-repeat="person in people">
+		<div class="row">
+			<div class="col-xs-10">
+				<h3>{{person.fullName}}</h3>
+			</div>
+			<div class="col-xs-1">
+				<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></button>
+			</div>
+			<div class="col-xs-1">
+				<button type="button" class="btn btn-danger" ng-click="removePerson(person)"><span class="glyphicon glyphicon-trash"></span></button>
+			</div>
+		</div>
+	</li>	
+</ul>
