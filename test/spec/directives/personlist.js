@@ -16,14 +16,6 @@ describe('Controller: PersonListCtrl', function () {
       $scope: scope
     });
 
-    //Add in some fake data
-    scope.people = [
-      { fullName: 'Joe Blogs', uuid: '1' },
-      { fullName: 'Jane Doe', uuid: '2' },
-      { fullName: 'Bob Barker', uuid: '3' },
-      { fullName: 'Fourth Man', uuid: '4' }
-    ];
-
   }));
 
   it('should be able to add people', function (){
@@ -31,12 +23,13 @@ describe('Controller: PersonListCtrl', function () {
     var newPerson = {'fullName':'Yo Yo'};
     scope.addPerson(newPerson);
     expect(scope.people.length).toBe(initialLength+1);
-    expect(_.last(scope.people)).toBe(newPerson);
+    expect(_.last(scope.people).fullName).toBe(newPerson.fullName);
   });
 
   it('should be able to remove people', function (){
     var initialLength = scope.people.length;
     scope.removePerson(scope.people[0]);
+    scope.$digest();
     expect(scope.people.length).toBe(initialLength-1);
   });
 

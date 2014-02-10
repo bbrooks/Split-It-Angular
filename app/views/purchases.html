@@ -1,1 +1,6 @@
-<p>This is the purchases view.</p>
+<h2>Purchases</h2>
+<ul class="purchases list-group">
+	<li class="purchase list-group-item" ng-repeat="purchase in purchases">
+		{{getPersonNameByUuid(purchase.purchaser)}} bought {{purchase.description}} for ${{purchase.cost}}
+	</li>
+</ul>

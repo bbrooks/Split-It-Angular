@@ -2,20 +2,21 @@
 
 angular.module('splitItApp')
 
- .controller('PersonListCtrl', function($scope){
+ .controller('PersonListCtrl', function($scope, peopleService){
 
-    $scope.people = [
-      { fullName: 'Joe Blogs', uuid: '1' },
-      { fullName: 'Jane Doe', uuid: '2' },
-      { fullName: 'Bob Barker', uuid: '3' }
-    ];
+    $scope.peopleService = peopleService;
+    $scope.people = peopleService.people;
+    
+    $scope.$watchCollection('peopleService.people', function(){
+      $scope.people = peopleService.people;
+    });
 
     $scope.addPerson = function(person){
-      $scope.people.push( person );
+      peopleService.addPerson( person );
     };
 
     $scope.removePerson = function(person){
-      $scope.people = _.without($scope.people, person);
+      peopleService.removePerson( person );
     };
 
     $scope.toggleEdit = function(person){
@@ -27,8 +28,8 @@ angular.module('splitItApp')
     };
 
     $scope.editPerson = function( person, updatedPerson ){
-      person.fullName = updatedPerson.fullName;
-      $scope.toggleEdit( person );
+      peopleService.editPerson( person, updatedPerson );
+      person.editMode = false;
     };
 
  })
