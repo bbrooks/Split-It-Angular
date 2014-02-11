@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('splitItApp')
-  .controller('PeopleCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('PeopleCtrl', function ($scope, peopleService) {
+
+  	$scope.addPerson = function( newPerson ){
+  		peopleService.addPerson( angular.copy( newPerson ) );
+  		newPerson.fullName = '';
+  	};
+
   });

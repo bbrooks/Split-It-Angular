@@ -18,14 +18,6 @@ describe('Controller: PersonListCtrl', function () {
 
   }));
 
-  it('should be able to add people', function (){
-    var initialLength = scope.people.length;
-    var newPerson = {'fullName':'Yo Yo'};
-    scope.addPerson(newPerson);
-    expect(scope.people.length).toBe(initialLength+1);
-    expect(_.last(scope.people).fullName).toBe(newPerson.fullName);
-  });
-
   it('should be able to remove people', function (){
     var initialLength = scope.people.length;
     scope.removePerson(scope.people[0]);

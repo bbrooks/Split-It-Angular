@@ -16,7 +16,14 @@ angular.module('splitItApp')
       },
 
       addPerson: function(person){
+
+        // Get highest uuid
+        var lastPerson = _.max(this.people, function(person){ return person.uuid } );
+        //Assign next
+        person.uuid = parseInt(lastPerson.uuid, 10)+1;
+        //Add to array
         this.people.push(person);
+
       },
 
       removePerson: function(personToRemove){

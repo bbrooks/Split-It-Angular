@@ -6,7 +6,7 @@
 				<div class="row" ng-show="person.editMode">
 					<form name="updatedPerson">
 						<div class="col-xs-10">
-							<input class="form-control" value="{{person.fullName}}" ng-model="updatedPerson.fullName">
+							<input class="form-control" ng-model="updatedPerson.fullName">
 						</div>
 						<div class="col-xs-2">
 							<button type="submit" class="btn btn-primary" ng-click="editPerson(person, updatedPerson)">

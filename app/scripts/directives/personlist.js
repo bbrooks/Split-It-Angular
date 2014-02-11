@@ -11,10 +11,6 @@ angular.module('splitItApp')
       $scope.people = peopleService.people;
     });
 
-    $scope.addPerson = function(person){
-      peopleService.addPerson( person );
-    };
-
     $scope.removePerson = function(person){
       peopleService.removePerson( person );
     };
