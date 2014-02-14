@@ -1,7 +1,7 @@
 <ul class="person-list list-group">
 	<li class="person list-group-item" ng-repeat="person in people">
 		<div class="row">
-			<div class="col-xs-10">
+			<div class="col-xs-7">
 				<h3 ng-show="!person.editMode">{{person.fullName}}</h3>
 				<div class="row" ng-show="person.editMode">
 					<form name="updatedPerson">
@@ -16,11 +16,11 @@
 					</form>
 				</div>
 			</div>
-			<div class="col-xs-1">
-				<button type="button" class="btn btn-primary" ng-click="toggleEdit(person)"><span class="glyphicon glyphicon-pencil"></span></button>
-			</div>
-			<div class="col-xs-1">
-				<button type="button" class="btn btn-danger" ng-click="removePerson(person)"><span class="glyphicon glyphicon-trash"></span></button>
+			<div class="col-xs-5">
+				<div class="btn-group pull-right">
+					<button type="button" class="btn btn-default" ng-click="toggleEdit(person)"><span class="glyphicon glyphicon-pencil"></span></button>
+					<button type="button" class="btn btn-danger" ng-click="removePerson(person)"><span class="glyphicon glyphicon-trash"></span></button>
+				</div>
 			</div>
 		</div>
 	</li>	
