@@ -4,12 +4,12 @@
 			<div class="col-xs-7">
 				<h3 ng-show="!person.editMode">{{person.fullName}}</h3>
 				<div class="row" ng-show="person.editMode">
-					<form name="updatedPerson">
+					<form>
 						<div class="col-xs-10">
-							<input class="form-control" ng-model="updatedPerson.fullName">
+							<input class="form-control" ng-model="person.fullName">
 						</div>
 						<div class="col-xs-2">
-							<button type="submit" class="btn btn-primary" ng-click="editPerson(person, updatedPerson)">
+							<button type="submit" class="btn btn-primary" ng-click="editPerson(person)">
 								<span class="glyphicon glyphicon-arrow-right"></span>
 							</button>
 						</div>

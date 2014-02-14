@@ -23,9 +23,9 @@ angular.module('splitItApp')
       }
     };
 
-    $scope.editPerson = function( person, updatedPerson ){
-      peopleService.editPerson( person, updatedPerson );
-      person.editMode = false;
+    $scope.editPerson = function(person){
+      peopleService.editPerson( person );
+      $scope.toggleEdit(person);
     };
 
  })

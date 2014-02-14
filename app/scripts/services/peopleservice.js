@@ -32,9 +32,9 @@ angular.module('splitItApp')
         });
       },
 
-      editPerson: function(person, updatedPerson){
+      editPerson: function(person){
         var matchingPersonIndex = this.getPersonIndexByUuid( person.uuid );
-        this.people[matchingPersonIndex].fullName = updatedPerson.fullName;
+        this.people[matchingPersonIndex] = person;
       },
 
       getPersonIndexByUuid: function( uuid ){
