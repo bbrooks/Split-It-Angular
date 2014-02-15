@@ -16,7 +16,7 @@ angular.module('splitItApp')
     };
 
     $scope.removePurchase = function( purchase ){
-      $scope.purchasesData.removePurchase(purchase);
+      $scope.purchaseData.removePurchase(purchase);
     };
 
     $scope.toggleEdit = function(purchase){
