@@ -22,13 +22,19 @@
 
 <hr>
 
-<h2>Add Some Stuff:</h2>
+<h3>Add Something:</h3>
 <purchase-form submit-label="Add"></purchase-form>
 
-<h2>Crunch the Numbas</h2>
-<button ng-click="calculateIous(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch</button>
-<ul class="ious list-group">
-	<li class="iou list-group-item" ng-repeat="iou in ious">
-		{{getPersonNameByUuid(iou.borrower)}} owes {{getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
-	</li>
+<hr>
+
+<h3>Who owes who what?</h3>
+	<div class="iou-controls btn-group">
+		<button ng-click="calculateIous(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch the Numbers</button>
+		<button ng-click="ious={}" type="button" class="btn btn-large btn-default">Clear</button>
+	</div>
+	<div class="ious">
+		<div class="iou alert alert-info" ng-repeat="iou in ious">
+			{{getPersonNameByUuid(iou.borrower)}} owes {{getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
+		</div>
+	</div>
 </ul>

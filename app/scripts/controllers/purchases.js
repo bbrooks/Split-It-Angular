@@ -29,7 +29,12 @@ angular.module('splitItApp')
     };
 
     $scope.calculateIous = function(purchases){
-      $scope.ious = debtSettler.purchases_to_transfers(purchases);
+      var ious = debtSettler.purchases_to_transfers(purchases);
+      // Round dollar amounts
+      _.each(ious, function(value, key){
+        ious[key].amount = Math.round(ious[key].amount);
+      });
+      $scope.ious = ious;
     };
 
   });
