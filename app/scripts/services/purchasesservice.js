@@ -6,7 +6,7 @@ angular.module('splitItApp')
 
       purchases: [
         {
-            "uuid": 0,
+            "uuid": 1,
             "description": "fugiat amet voluptate ipsum qui",
             "purchaser": "1",
             "cost": 63,
@@ -14,7 +14,7 @@ angular.module('splitItApp')
             "purchaseDate": "2008-06-05T03:15:35 +07:00"
         },
         {
-            "uuid": 1,
+            "uuid": 2,
             "description": "consequat aute esse deserunt sint",
             "purchaser": "1",
             "cost": 20,
@@ -22,7 +22,7 @@ angular.module('splitItApp')
             "purchaseDate": "2008-11-07T02:09:48 +08:00"
         },
         {
-            "uuid": 2,
+            "uuid": 3,
             "description": "sunt culpa consectetur ad pariatur",
             "purchaser": "2",
             "cost": 12,
@@ -40,6 +40,12 @@ angular.module('splitItApp')
         
         //Add to array
         this.purchases.push(purchase);
+      },
+
+      removePurchase: function(purchaseToRemove){
+        this.purchases = _.reject(this.purchases, function(purchase){
+          return purchase.uuid == purchaseToRemove.uuid 
+        });
       }
 
     };

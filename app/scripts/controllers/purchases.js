@@ -3,6 +3,15 @@
 angular.module('splitItApp')
   .controller('PurchasesCtrl', function ($scope, peopleService, purchasesService) {
     
+    // Get purchases
+    $scope.purchases = purchasesService.purchases;
+    
+    // Watch for changes
+    $scope.purchasesService = purchasesService;
+    $scope.$watchCollection('purchasesService.purchases', function(){
+      $scope.purchases = purchasesService.purchases;
+    });
+
     $scope.getPersonNameByUuid = function( uuid ){
       var person =  peopleService.getPersonByUuid(uuid);
       if(person){
@@ -12,11 +21,8 @@ angular.module('splitItApp')
       }
     };
 
-    // Some sample purchases
-    $scope.purchases = purchasesService.purchases;
-
-    $scope.$watchCollection('purchasesService.people', function(){
-      $scope.purchases = purchasesService.purchases;
-    });
+    $scope.removePurchase = function( purchase ){
+      purchasesService.removePurchase(purchase);
+    };
 
   });
