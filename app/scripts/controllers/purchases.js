@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('splitItApp')
-  .controller('PurchasesCtrl', function ($scope, peopleService, purchasesService) {
+  .controller('PurchasesCtrl', function ($scope, peopleService, purchasesService, debtSettler) {
     
     $scope.purchaseData = purchasesService;
 
@@ -25,6 +25,11 @@ angular.module('splitItApp')
       } else {
         purchase.editMode = true;
       }
+    };
+
+    $scope.calculatePayments = function(purchases){
+      var ious = debtSettler.purchases_to_transfers(purchases);
+      console.log(ious);
     };
 
   });
