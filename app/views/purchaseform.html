@@ -3,49 +3,49 @@
 	<div class="form-group" ng-class="{'has-error': purchaseForm.description.$invalid && !purchaseForm.description.$pristine}">
 		<label for="name" class="col-sm-2 control-label">What did you buy?</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="description" name="description" placeholder="A catapult" ng-model="newPurchase.description" required>
+			<input type="text" class="form-control" id="description" name="description" placeholder="A catapult" ng-model="aPurchase.description" required>
 			<p ng-show="purchaseForm.description.$invalid && !purchaseForm.description.$pristine" class="help-block">Required</p>
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': purchaseForm.amount.$invalid && !purchaseForm.amount.$pristine}">
-		<label for="amount" class="col-sm-2 control-label">How much was it?</label>
+	<div class="form-group" ng-class="{'has-error': purchaseForm.cost.$invalid && !purchaseForm.cost.$pristine}">
+		<label for="cost" class="col-sm-2 control-label">How much was it?</label>
 		<div class="col-sm-10">
 			<div class="input-group">
 				<span class="input-group-addon">$</span>			
-				<input type="number" class="form-control" id="amount" name="amount" placeholder="5" ng-model="newPurchase.amount" required>
+				<input type="number" class="form-control" id="cost" name="cost" placeholder="5" ng-model="aPurchase.cost" required>
 			</div>
-			<p ng-show="!purchaseForm.amount.$valid && !purchaseForm.amount.$pristine" class="help-block">Please enter a number</p>
+			<p ng-show="!purchaseForm.cost.$valid && !purchaseForm.cost.$pristine" class="help-block">Please enter a number</p>
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': purchaseForm.payer.$invalid && !purchaseForm.payer.$pristine}">
+	<div class="form-group" ng-class="{'has-error': purchaseForm.purchaser.$invalid && !purchaseForm.purchaser.$pristine}">
 		<!-- todo: this should be a custom directive -->
-		<label for="payer" class="col-sm-2 control-label">Who paid?</label>
+		<label for="purchaser" class="col-sm-2 control-label">Who paid?</label>
 		<div class="col-sm-10">
-			<select class="form-control" name="payer" ng-model="newPurchase.payer" required ng-options="person.uuid as person.fullName for person in people"></select>
+			<select class="form-control" name="purchaser" ng-model="aPurchase.purchaser" required ng-options="person.uuid as person.fullName for person in people"></select>
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': purchaseForm.date.$invalid && !purchaseForm.date.$pristine}">
+	<div class="form-group" ng-class="{'has-error': purchaseForm.purchaseDate.$invalid && !purchaseForm.purchaseDate.$pristine}">
 		<label for="date" class="col-sm-2 control-label">When?</label>
 		<div class="col-sm-10">
 			<!-- todo: this should be a custom directive -->
-			<input validate-date type="date" class="form-control" name="date" id="date" required ng-model="newPurchase.date">
-			<p ng-show="!purchaseForm.date.$pristine && purchaseForm.date.$error.validateDate" class="help-block">Enter a valid date.</p>
+			<input validate-date type="purchaseDate" class="form-control" name="purchaseDate" id="purchaseDate" required ng-model="aPurchase.purchaseDate">
+			<p ng-show="!purchaseForm.purchaseDate.$pristine && purchaseForm.purchaseDate.$error.validateDate" class="help-block">Enter a valid date.</p>
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': purchaseForm.payer.$invalid && !purchaseForm.payer.$pristine}">
-		<label for="owers" class="col-sm-2 control-label">Split it Between:</label>
+	<div class="form-group" ng-class="{'has-error': purchaseForm.splitBetween.$invalid && !purchaseForm.splitBetween.$pristine}">
+		<label for="splitBetween" class="col-sm-2 control-label">Split it Between:</label>
 		<div class="col-sm-10">
 			<!-- todo: this should be a custom directive -->
-			<select class="form-control" name="owers" ng-model="newPurchase.owers" required multiple ng-options="person.uuid as person.fullName for person in people"></select>
-			<p ng-show="purchaseForm.owers.$valid" class="help-block">defaults to everyone</p>
-			<p ng-show="!purchaseForm.owers.$pristine && !purchaseForm.owers.$valid" class="help-block">Choose some people.</p>
+			<select class="form-control" name="splitBetween" ng-model="aPurchase.splitBetween" required multiple ng-options="person.uuid as person.fullName for person in people"></select>
+			<p ng-show="purchaseForm.splitBetween.$valid" class="help-block">defaults to everyone</p>
+			<p ng-show="!purchaseForm.splitBetween.$pristine && !purchaseForm.splitBetween.$valid" class="help-block">Choose some people.</p>
 		</div>
 	</div>
 
-	<button class="btn btn-primary" type="submit" ng-disabled="purchaseForm.$invalid" ng-click="addPurchase(newPurchase)">{{submitLabel}}</button>
+	<button class="btn btn-primary" type="submit" ng-disabled="purchaseForm.$invalid" ng-click="addPurchase(aPurchase)">{{submitLabel}}</button>
 
 </form>

@@ -8,7 +8,7 @@ angular.module('splitItApp')
 		restrict: 'E',
 		scope: {
 			submitLabel: '@',
-			purchase: '@'
+			originalPurchase: '='
 		},
 		controller: 'PurchaseFormCtrl'
 	};
@@ -19,56 +19,50 @@ angular.module('splitItApp')
 	$scope.people = peopleService.people;
 
 	var purchaseFormDefaultState = {
-		date: getTodayStr(),
-		owers: _.pluck(peopleService.people, 'uuid')
+		purchaseDate: getToday(),
+		splitBetween: _.pluck(peopleService.people, 'uuid')
 	};
 	
-	// Set Defaults
-	$scope.newPurchase = angular.copy(purchaseFormDefaultState);
+	// If we've got form data available to us, populate using that
+	if( $scope.originalPurchase ){
+		$scope.aPurchase = purchaseToFormData($scope.originalPurchase);
+	} else {
+		// Otherwise use default data
+		$scope.aPurchase = angular.copy( purchaseFormDefaultState );
+	}
 
-	$scope.addPurchase = function(newPurchase){
-		 var purchase = buildPurchase( newPurchase );
+	$scope.addPurchase = function(aPurchase){
+		 var purchase = buildPurchase( aPurchase );
 
 		 purchasesService.addPurchase(purchase);
 
 		// Reset Form
-		$scope.newPurchase = angular.copy(purchaseFormDefaultState);
+		$scope.aPurchase = angular.copy(purchaseFormDefaultState);
 		$scope.purchaseForm.$setPristine();
 	};
 
 	function buildPurchase( purchase ){
-		var cleanPurchase = {};
-
-		//Check for neccessary fields
-		var required_attrs = [
-			'description',
-			'payer',
-			'owers',
-			'date',
-			'amount'
-		];
-
 		// @Todo: check for required attrs.
-
 		// Assign data to model
-		cleanPurchase.description = purchase.description;
-		cleanPurchase.purchaser = purchase.payer;
-		cleanPurchase.splitBetween = purchase.owers;
-		cleanPurchase.purchaseDate = new Date(purchase.date);
-		cleanPurchase.cost = parseFloat(purchase.amount);
-
+		var cleanPurchase = angular.copy(purchase);
 		return cleanPurchase;
 	}
 
-	function getTodayStr(){
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
+	function purchaseToFormData( purchase ){
+		var formData = angular.copy(purchase);
+		return formData;
+	}
 
-		var yyyy = today.getFullYear();
-		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = yyyy+'-'+mm+'-'+dd;
+	function getToday(){
 
-		return today;
+		var date = new Date();
+		var dd = date.getDate();
+		var mm = date.getMonth()+1; //January is 0!
+
+		var yyyy = date.getFullYear();
+		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} date = yyyy+'-'+mm+'-'+dd;
+
+		return date;
 	}
 
 });

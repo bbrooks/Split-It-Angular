@@ -7,27 +7,27 @@ angular.module('splitItApp')
       purchases: [
         {
             "uuid": 1,
-            "description": "fugiat amet voluptate ipsum qui",
+            "description": "Milk, eggs, spam",
             "purchaser": "1",
             "cost": 63,
-            "splitBetween": [1,2,3],
-            "purchaseDate": "2008-06-05T03:15:35 +07:00"
+            "splitBetween": ["1","2"],
+            "purchaseDate": "2008-06-05"
         },
         {
             "uuid": 2,
-            "description": "consequat aute esse deserunt sint",
+            "description": "Yogurt, bananas",
             "purchaser": "1",
             "cost": 20,
-            "splitBetween": [1,2,3],
-            "purchaseDate": "2008-11-07T02:09:48 +08:00"
+            "splitBetween": ["1" ,"2" ,"3"],
+            "purchaseDate": "2008-11-07"
         },
         {
             "uuid": 3,
-            "description": "sunt culpa consectetur ad pariatur",
+            "description": "science, for real",
             "purchaser": "2",
             "cost": 12,
-            "splitBetween": [1,2,3],
-            "purchaseDate": "1990-11-27T17:49:13 +08:00"
+            "splitBetween": ["1","2","3"],
+            "purchaseDate": "1990-11-27"
         }
       ],
 
@@ -46,6 +46,19 @@ angular.module('splitItApp')
         this.purchases = _.reject(this.purchases, function(purchase){
           return purchase.uuid == purchaseToRemove.uuid 
         });
+      },
+
+      editPurchase: function(purchase){
+        var matchinPurchaseIndex = this.getpurchaseIndexByUuid( purchase.uuid );
+        this.purchases[matchingPurchaseIndex] = purchase;
+      },
+
+      getPurchaseIndexByUuid: function( uuid ){
+
+        var matchingPurchase = _.findWhere( this.purchases, {uuid: uuid} );
+
+        return _.indexOf(this.purchases, matchingPurchase);
+
       }
 
     };

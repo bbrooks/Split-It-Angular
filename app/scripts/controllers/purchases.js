@@ -25,4 +25,12 @@ angular.module('splitItApp')
       purchasesService.removePurchase(purchase);
     };
 
+    $scope.toggleEdit = function(purchase){
+      if( purchase.hasOwnProperty('editMode') && purchase.editMode ){
+        purchase.editMode = false;
+      } else {
+        purchase.editMode = true;
+      }
+    };
+
   });
