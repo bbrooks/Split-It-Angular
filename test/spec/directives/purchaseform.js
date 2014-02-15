@@ -12,9 +12,4 @@ describe('Directive: purchaseForm', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<purchase-form></purchase-form>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the purchaseForm directive');
-  }));
 });
