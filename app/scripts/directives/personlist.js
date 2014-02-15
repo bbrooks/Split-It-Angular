@@ -4,12 +4,7 @@ angular.module('splitItApp')
 
  .controller('PersonListCtrl', function($scope, peopleService){
 
-    $scope.peopleService = peopleService;
-    $scope.people = peopleService.people;
-    
-    $scope.$watchCollection('peopleService.people', function(){
-      $scope.people = peopleService.people;
-    });
+    $scope.peopleData = peopleService;
 
     $scope.removePerson = function(person){
       peopleService.removePerson( person );
