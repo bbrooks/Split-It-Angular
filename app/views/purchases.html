@@ -26,4 +26,9 @@
 <purchase-form submit-label="Add"></purchase-form>
 
 <h2>Crunch the Numbas</h2>
-<button ng-click="calculatePayments(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch</button>
+<button ng-click="calculateIous(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch</button>
+<ul class="ious list-group">
+	<li class="iou list-group-item" ng-repeat="iou in ious">
+		{{getPersonNameByUuid(iou.borrower)}} owes {{getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
+	</li>
+</ul>

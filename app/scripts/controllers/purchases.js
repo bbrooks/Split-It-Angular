@@ -4,6 +4,7 @@ angular.module('splitItApp')
   .controller('PurchasesCtrl', function ($scope, peopleService, purchasesService, debtSettler) {
     
     $scope.purchaseData = purchasesService;
+    $scope.ious = {};
 
 
     $scope.getPersonNameByUuid = function( uuid ){
@@ -27,9 +28,8 @@ angular.module('splitItApp')
       }
     };
 
-    $scope.calculatePayments = function(purchases){
-      var ious = debtSettler.purchases_to_transfers(purchases);
-      console.log(ious);
+    $scope.calculateIous = function(purchases){
+      $scope.ious = debtSettler.purchases_to_transfers(purchases);
     };
 
   });
