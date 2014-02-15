@@ -26,7 +26,7 @@
 <purchase-form submit-label="Add"></purchase-form>
 
 <hr>
-
+<section ng-show="purchaseData.purchases.length > 0">
 <h3>Who owes who what?</h3>
 	<div class="iou-controls btn-group">
 		<button ng-click="calculateIous(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch the Numbers</button>
@@ -37,4 +37,4 @@
 			{{getPersonNameByUuid(iou.borrower)}} owes {{getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
 		</div>
 	</div>
-</ul>
+</section>

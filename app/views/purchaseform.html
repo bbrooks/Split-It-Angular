@@ -7,7 +7,9 @@
 			<p ng-show="purchaseForm.description.$invalid && !purchaseForm.description.$pristine" class="help-block">Required</p>
 		</div>
 	</div>
-	<div ng-show="!purchaseForm.description.$pristine">
+
+	<!-- hide most of the form till interaction -->
+	<div ng-show="!purchaseForm.$pristine || aPurchase.uuid">
 		<div class="form-group" ng-class="{'has-error': purchaseForm.cost.$invalid && !purchaseForm.cost.$pristine}">
 			<label for="cost" class="col-sm-2 control-label">How much was it?</label>
 			<div class="col-sm-10">
