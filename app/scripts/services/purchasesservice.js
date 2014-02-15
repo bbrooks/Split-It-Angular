@@ -49,7 +49,7 @@ angular.module('splitItApp')
       },
 
       editPurchase: function(purchase){
-        var matchinPurchaseIndex = this.getpurchaseIndexByUuid( purchase.uuid );
+        var matchingPurchaseIndex = this.getPurchaseIndexByUuid( purchase.uuid );
         this.purchases[matchingPurchaseIndex] = purchase;
       },
 

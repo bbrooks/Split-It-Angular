@@ -18,23 +18,27 @@ angular.module('splitItApp')
 
 	$scope.people = peopleService.people;
 
+	// Define default form data
 	var purchaseFormDefaultState = {
 		purchaseDate: getToday(),
 		splitBetween: _.pluck(peopleService.people, 'uuid')
 	};
 	
-	// If we've got form data available to us, populate using that
+	// Overwrite defaults if we got passed a purchase to populate with
 	if( $scope.originalPurchase ){
-		$scope.aPurchase = purchaseToFormData($scope.originalPurchase);
-	} else {
-		// Otherwise use default data
-		$scope.aPurchase = angular.copy( purchaseFormDefaultState );
-	}
+		purchaseFormDefaultState = purchaseToFormData($scope.originalPurchase);
+	} 
 
-	$scope.addPurchase = function(aPurchase){
+	// Populate form with data
+	$scope.aPurchase = angular.copy( purchaseFormDefaultState );
+
+	$scope.addOrUpdatePurchase = function(aPurchase){
 		 var purchase = buildPurchase( aPurchase );
 
-		 purchasesService.addPurchase(purchase);
+		if( purchase.hasOwnProperty('uuid') )
+			purchasesService.editPurchase(purchase);
+		else
+			purchasesService.addPurchase(purchase);
 
 		// Reset Form
 		$scope.aPurchase = angular.copy(purchaseFormDefaultState);
