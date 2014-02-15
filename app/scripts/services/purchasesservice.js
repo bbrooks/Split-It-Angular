@@ -33,7 +33,7 @@ angular.module('splitItApp')
 
       addPurchase: function(purchase){
         // Get highest uuid
-        var lastPurchase = _.max(this.people, function(person){ return person.uuid } );
+        var lastPurchase = _.max(this.purchases, function(purchase){ return purchase.uuid } );
         
         //Assign next
         purchase.uuid = parseInt(lastPurchase.uuid, 10)+1;

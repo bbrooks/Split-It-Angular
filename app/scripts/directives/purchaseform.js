@@ -14,7 +14,7 @@ angular.module('splitItApp')
 	};
 })
 
-.controller('PurchaseFormCtrl', function($scope, peopleService){
+.controller('PurchaseFormCtrl', function($scope, peopleService, purchasesService){
 
 	$scope.people = peopleService.people;
 
@@ -27,7 +27,9 @@ angular.module('splitItApp')
 	$scope.newPurchase = angular.copy(purchaseFormDefaultState);
 
 	$scope.addPurchase = function(newPurchase){
-		$scope.purchase = buildPurchase( newPurchase );
+		 var purchase = buildPurchase( newPurchase );
+
+		 purchasesService.addPurchase(purchase);
 
 		// Reset Form
 		$scope.newPurchase = angular.copy(purchaseFormDefaultState);
