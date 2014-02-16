@@ -35,8 +35,6 @@ angular.module('splitItApp')
         // Get highest uuid
         var lastPurchase = _.max(this.purchases, function(purchase){ return purchase.uuid } );
         
-        console.log(lastPurchase);
-
         if( lastPurchase < 0 ){
           lastPurchase = { uuid: 0 };
         }

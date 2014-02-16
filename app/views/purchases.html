@@ -1,31 +1,17 @@
-<h1>Stuff We Bought</h1>
-<ul class="purchases list-group">
-	<li class="purchase list-group-item" ng-repeat="purchase in purchaseData.purchases">
-		<div class="row">
-			<div class="col-xs-9">
-				<div ng-show="!purchase.editMode">
-					{{getPersonNameByUuid(purchase.purchaser)}} bought {{purchase.description}} for ${{purchase.cost}}
-				</div>
-				<div ng-show="purchase.editMode">
-					<purchase-form submit-label='update' original-purchase='purchase'></purchase-form>
-				</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="btn-group pull-right">
-					<button type="button" class="btn btn-default" ng-click="toggleEdit(purchase)"><span class="glyphicon glyphicon-pencil"></span></button>
-					<button type="button" class="btn btn-danger" ng-click="removePurchase(purchase)"><span class="glyphicon glyphicon-trash"></span></button>
-				</div>
-			</div>
-		</div>
-	</li>
-</ul>
+<section class="purchases">
+	<h2>Here's what we bought:</h2>
+	<purchase-list purchases="purchaseData.purchases"></purchase-list>
+</section>
 
 <hr>
 
-<h3>Add Something:</h3>
-<purchase-form submit-label="Add"></purchase-form>
+<section class="add-purchase">
+	<h3>Add Something:</h3>
+	<purchase-form submit-label="Add"></purchase-form>
+</section>
 
 <hr>
+
 <section ng-show="purchaseData.purchases.length > 0">
 <h3>Who owes who what?</h3>
 	<div class="iou-controls btn-group">
@@ -34,7 +20,7 @@
 	</div>
 	<div class="ious">
 		<div class="iou alert alert-info" ng-repeat="iou in ious">
-			{{getPersonNameByUuid(iou.borrower)}} owes {{getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
+			{{peopleData.getPersonNameByUuid(iou.borrower)}} owes {{peopleData.getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
 		</div>
 	</div>
 </section>

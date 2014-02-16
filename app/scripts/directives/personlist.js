@@ -29,7 +29,9 @@ angular.module('splitItApp')
     return {
       templateUrl: 'views/personList.html',
       restrict: 'E',
-      scope: {},
+      scope: {
+        people: '='
+      },
       controller: 'PersonListCtrl'
     };
   });
