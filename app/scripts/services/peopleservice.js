@@ -1,15 +1,19 @@
   'use strict';
 
   angular.module('splitItApp')
-  .factory('peopleService', function () {
+  .factory('peopleService', function (apigeeCollection) {
 
-    return {
+    // Set up the database connection
+    var peopleCollection = apigeeCollection('people');
 
-      people: [
-      { fullName: 'Joe Blogs', uuid: '1' },
-      { fullName: 'Jane Doe', uuid: '2' },
-      { fullName: 'Bob Barker', uuid: '3' }
-      ],
+    // Initial population of data from DB
+    peopleCollection.all().then(function( people ){
+      PeopleService.people = people;
+    });
+
+    var PeopleService = {
+
+      people: {},
 
       all: function () {
         return this.people;
@@ -17,27 +21,78 @@
 
       addPerson: function(person){
 
-          // Get highest uuid
-          var lastPerson = _.max(this.people, function(person){ return person.uuid } );
-          
-          if( lastPerson < 0 ){
-            lastPerson = { uuid: 0 };
-          }
+        if( typeof person === 'undefined' ) 
+            return;
 
-          //Assign next
-          person.uuid = parseInt(lastPerson.uuid, 10)+1;
-          //Add to array
-          this.people.push(person);
+        return peopleCollection.add(person)
+          .then(
+            function( personAdded ){
+              this.people.push(personAdded)
+            }.bind(this), 
+            function( err ){
+              alert( err );
+            }
+          );
+      },
 
-        },
+      removePerson: function( person ){
 
-        removePerson: function(personToRemove){
+        if( ! this.isValidPerson( person ) ) 
+          return;
+
+        return peopleCollection.remove(person.uuid)
+          .then(
+            function(){
+              this.people = _.reject(this.people, function(aPerson){
+                return person.uuid == aPerson.uuid 
+              });
+            }.bind(this),
+            function( err ){
+              alert( err );
+            }
+          );
+      },
+
+      editPerson: function( person ){
+        if( ! this.isValidPerson( person ) ) 
+          return;
+
+        peopleCollection.update( person )
+          .then(
+            function( response ){
+            },
+            function( err ){
+              alert(err);
+            }
+          );
+
+      },
+
+      addPersonLocal: function(person){
+
+
+        // Get highest uuid
+        var lastPerson = _.max(this.people, function(person){ return person.uuid } );
+        
+        if( lastPerson < 0 ){
+          lastPerson = { uuid: 0 };
+        }
+
+        //Assign next
+        person.uuid = parseInt(lastPerson.uuid, 10)+1;
+        //Add to array
+        this.people.push(person);
+
+      },
+
+
+        removePersonLocal: function(personToRemove){
           this.people = _.reject(this.people, function(person){
             return person.uuid == personToRemove.uuid 
           });
         },
 
-        editPerson: function(person){
+        editPersonLocal: function(person){
           var matchingPersonIndex = this.getPersonIndexByUuid( person.uuid );
           this.people[matchingPersonIndex] = person;
         },
@@ -69,7 +124,22 @@
           } else {
             return "Person " + uuid;
           }
+        },
+
+        isValidPerson: function( person ){
+
+          if( typeof person === 'undefined' ) 
+            return false;
+
+          if( !person.hasOwnProperty('uuid') )
+            return false;
+
+          return true;
+
         }
 
       };
+
+      return PeopleService;
+
     });

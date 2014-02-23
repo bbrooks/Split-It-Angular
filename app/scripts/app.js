@@ -4,7 +4,8 @@ angular.module('splitItApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ngAnimate'
+  'ngAnimate',
+  'apigee'
 ])
   .config(function ($routeProvider) {
     $routeProvider
