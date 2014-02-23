@@ -1,37 +1,87 @@
 'use strict';
 
 angular.module('splitItApp')
-  .factory('purchasesService', function () {
-    return {
+.factory('purchasesService', function (apigeeCollection) {
 
-      purchases: [
-        {
-            "uuid": 1,
-            "description": "Milk, eggs, spam",
-            "purchaser": "1",
-            "cost": 63,
-            "splitBetween": ["1","2"],
-            "purchaseDate": "2008-06-05"
-        },
-        {
-            "uuid": 2,
-            "description": "Yogurt, bananas",
-            "purchaser": "1",
-            "cost": 20,
-            "splitBetween": ["1" ,"2" ,"3"],
-            "purchaseDate": "2008-11-07"
-        },
-        {
-            "uuid": 3,
-            "description": "science, for real",
-            "purchaser": "2",
-            "cost": 12,
-            "splitBetween": ["1","2","3"],
-            "purchaseDate": "1990-11-27"
-        }
-      ],
+    // Set up the database connection
+    var purchasesCollection = apigeeCollection('purchases');
 
-      addPurchase: function(purchase){
+    // Initial population of data from DB
+    purchasesCollection.all().then(function( purchases ){
+      PurchasesService.purchases = purchases;
+    });
+
+    var PurchasesService = {
+
+      purchases: [],
+
+      /**
+       * Add a purchase to the purchases list
+       * @param  {obj} purchase Purchase to add
+       * @return {promise} A promise that is resolved when the purchase is added to the database
+       */
+       addPurchase: function(purchase){
+        if( typeof purchase === 'undefined' ) 
+          return;
+
+        return purchasesCollection.add(purchase)
+        .then(
+          function( purchaseAdded ){
+            this.purchases.push(purchaseAdded)
+          }.bind(this), 
+          function( err ){
+            alert( err );
+          }
+          );
+      },
+
+      /**
+       * Remove a purchase from the apigee collection
+       * and the local purchase array
+       * 
+       * @param  {obj} purchase
+       * @return {promise} Promise that is resolved when a purchase is deleted from the database
+       */
+       removePurchase: function(purchase){
+
+        if( ! this.isValidPurchase( purchase ) ) 
+          return;
+
+        return purchasesCollection.remove(purchase.uuid)
+        .then(
+          function(){
+            this.purchases = _.reject(this.purchases, function(aPurchase){
+              return purchase.uuid == aPurchase.uuid; 
+            });
+          }.bind(this),
+          function( err ){
+            alert( err );
+          }
+          );
+      },
+
+      /**
+       * Updates a purchase's info based on its uuid
+       * @param  {obj} purchase 
+       * @return {promise} Promise that resolves when the purchase is updated in the database
+       */
+       editPurchase: function( purchase ){
+
+        if( ! this.isValidPurchase( purchase ) ) 
+          return;
+
+        return peopleCollection.update( purchase )
+        .then(
+          function( response ){
+          },
+          function( err ){
+            alert(err);
+          }
+          );
+
+      },
+
+      addLocalPurchase: function(purchase){
         // Get highest uuid
         var lastPurchase = _.max(this.purchases, function(purchase){ return purchase.uuid } );
         
@@ -46,13 +96,13 @@ angular.module('splitItApp')
         this.purchases.push(purchase);
       },
 
-      removePurchase: function(purchaseToRemove){
+      removeLocalPurchase: function(purchaseToRemove){
         this.purchases = _.reject(this.purchases, function(purchase){
           return purchase.uuid == purchaseToRemove.uuid 
         });
       },
 
-      editPurchase: function(purchase){
+      editLocalPurchase: function(purchase){
         var matchingPurchaseIndex = this.getPurchaseIndexByUuid( purchase.uuid );
         this.purchases[matchingPurchaseIndex] = purchase;
       },
@@ -63,7 +113,22 @@ angular.module('splitItApp')
 
         return _.indexOf(this.purchases, matchingPurchase);
 
+      },
+
+      isValidPurchase: function( purchase ){
+
+        if( typeof purchase === 'undefined' ) 
+          return false;
+
+        if( !purchase.hasOwnProperty('uuid') )
+          return false;
+
+        return true;
+
       }
 
     };
+
+    return PurchasesService;
+
   });
