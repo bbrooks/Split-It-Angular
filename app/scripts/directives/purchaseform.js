@@ -35,20 +35,34 @@ angular.module('splitItApp')
 	$scope.addOrUpdatePurchase = function(aPurchase){
 		 var purchase = buildPurchase( aPurchase );
 
-		if( purchase.hasOwnProperty('uuid') )
-			purchasesService.editPurchase(purchase);
-		else
-			purchasesService.addPurchase(purchase);
+		if( purchase.hasOwnProperty('uuid') ){
+			var promise = purchasesService.editPurchase(purchase).then(function(){
+				aPurchase.editMode = false; 
+			});
+		} else {
+			var promise = purchasesService.addPurchase(purchase).then(function(){
+				// reset form
+				$scope.aPurchase = angular.copy(purchaseFormDefaultState);
+			});
+		}
 
-		// Reset Form
-		$scope.aPurchase = angular.copy(purchaseFormDefaultState);
-		$scope.purchaseForm.$setPristine();
+		// Reset Form to pristine
+		promise.then(function(){
+			$scope.purchaseForm.$setPristine();
+		});
 	};
 
 	function buildPurchase( purchase ){
+		
+
 		// @Todo: check for required attrs.
 		// Assign data to model
 		var cleanPurchase = angular.copy(purchase);
+
+		// Clean up metadata
+		if( cleanPurchase.hasOwnProperty('editMode') )
+			delete(cleanPurchase.editMode);
+		
 		return cleanPurchase;
 	}
 

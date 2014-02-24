@@ -136,7 +136,6 @@ angular.module('apigee', [])
 				var httpRequest = function(){
 					// Add access token and return $http request
 					config.params.access_token = apigeeService.token;
-					console.log(config);
 					return $http( config );
 				};
 
@@ -258,8 +257,8 @@ angular.module('apigee', [])
 
 				updateRequest()
 					.then(
-						function(){
-							updatePromise.resolve();
+						function( response ){
+							updatePromise.resolve( response.entities[0] );
 						},
 						function(){
 							updatePromise.reject('Apigee Error: failed to update entity: ' + updatedItem.uuid );

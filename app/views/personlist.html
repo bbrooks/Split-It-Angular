@@ -1,5 +1,5 @@
 <ul class="person-list list-group">
-	<li class="person list-group-item" ng-repeat="person in people">
+	<li class="person list-group-item" ng-repeat="person in people track by person.uuid">
 		<div class="row">
 			<div class="col-xs-7">
 				<h3 ng-show="!person.editMode">{{person.fullName}}</h3>

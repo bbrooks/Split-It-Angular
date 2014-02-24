@@ -19,8 +19,12 @@ angular.module('splitItApp')
     };
 
     $scope.editPerson = function(person){
+      
+      if( person.hasOwnProperty('editMode') )
+        delete(person.editMode);
+
       peopleService.editPerson( person );
-      $scope.toggleEdit(person);
+
     };
 
  })

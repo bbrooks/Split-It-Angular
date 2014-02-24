@@ -1,12 +1,12 @@
 <ul class="purchases list-group">
-	<li class="purchase list-group-item" ng-repeat="purchase in purchases">
+	<li class="purchase list-group-item" ng-repeat="purchase in purchases track by purchase.uuid">
 		<div class="row">
 			<div class="col-xs-9">
 				<div ng-show="!purchase.editMode">
 					{{peopleData.getPersonNameByUuid(purchase.purchaser)}} bought {{purchase.description}} for ${{purchase.cost}}
 				</div>
 				<div ng-show="purchase.editMode">
-					<purchase-form submit-label='update' original-purchase='purchase'></purchase-form>
+					<purchase-form submit-label='Update' original-purchase='purchase'></purchase-form>
 				</div>
 			</div>
 			<div class="col-xs-3">

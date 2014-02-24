@@ -32,7 +32,7 @@ angular.module('splitItApp')
           function( err ){
             alert( err );
           }
-          );
+        );
       },
 
       /**
@@ -72,7 +72,10 @@ angular.module('splitItApp')
 
         return purchasesCollection.update( purchase )
         .then(
-          angular.noop,
+          function( updatedPurchase ){
+            var index = this.getPurchaseIndexByUuid( updatedPurchase.uuid );
+            this.purchases[index] = updatedPurchase;
+          }.bind(this),
           function( err ){
             alert(err);
           }
