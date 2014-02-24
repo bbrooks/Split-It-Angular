@@ -70,14 +70,13 @@ angular.module('splitItApp')
         if( ! this.isValidPurchase( purchase ) ) 
           return;
 
-        return peopleCollection.update( purchase )
+        return purchasesCollection.update( purchase )
         .then(
-          function( response ){
-          },
+          angular.noop,
           function( err ){
             alert(err);
           }
-          );
+        );
 
       },
 
