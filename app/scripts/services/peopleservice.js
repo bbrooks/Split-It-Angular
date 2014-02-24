@@ -34,7 +34,7 @@
           function( err ){
             alert( err );
           }
-          );
+        );
       },
 
       /**
@@ -59,7 +59,7 @@
           function( err ){
             alert( err );
           }
-          );
+        );
       },
 
       /**
@@ -79,37 +79,8 @@
           function( err ){
             alert(err);
           }
-          );
+        );
 
-      },
-
-      addPersonLocal: function(person){
-
-
-        // Get highest uuid
-        var lastPerson = _.max(this.people, function(person){ return person.uuid } );
-        
-        if( lastPerson < 0 ){
-          lastPerson = { uuid: 0 };
-        }
-
-        //Assign next
-        person.uuid = parseInt(lastPerson.uuid, 10)+1;
-        //Add to array
-        this.people.push(person);
-
-      },
-
-
-      removePersonLocal: function(personToRemove){
-        this.people = _.reject(this.people, function(person){
-          return person.uuid == personToRemove.uuid 
-        });
-      },
-
-      editPersonLocal: function(person){
-        var matchingPersonIndex = this.getPersonIndexByUuid( person.uuid );
-        this.people[matchingPersonIndex] = person;
       },
 
       getPersonIndexByUuid: function( uuid ){

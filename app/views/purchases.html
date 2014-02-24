@@ -1,19 +1,40 @@
-<section class="purchases">
-	<h2>Here's what we bought:</h2>
-	<purchase-list purchases="purchaseData.purchases"></purchase-list>
-</section>
-
-<hr>
-
 <section class="add-purchase">
-	<h3>Add Something:</h3>
+	<h3>Add Purchases</h3>
 	<purchase-form submit-label="Add"></purchase-form>
 </section>
 
 <hr>
 
+<section class="purchases">
+	<div class="purchases-date-controls">
+	<h3>Find Purchases By Date</h3>
+		<form>
+			<div class="row">
+				<div class="col-sm-4">
+					<date-input class="form-control" ng-model="startDate"></date-input>
+				</div>
+				<div class="pull-left">
+					&mdash;
+				</div>
+				<div class="col-sm-4">
+					<date-input class="form-control pull-left" ng-model="endDate"></date-input>
+				</div>
+				<div class="col-sm-2">
+					<div class="btn-group">
+						<button type="submit" class="btn btn-primary" ng-click="getPurchasesByDateRange(startDate, endDate)"><span class="glyphicon glyphicon-refresh"></span></button>
+						<button type="button" class="btn btn-default" ng-click="clearPurchases()"><span class="glyphicon glyphicon-remove"></span></button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div> <!-- .purchases-date-controls -->
+	<purchase-list purchases="purchaseData.purchases"></purchase-list>
+</section>
+
+<hr>
+
 <section ng-show="purchaseData.purchases.length > 0">
-<h3>Who owes who what?</h3>
+<h3>Calculate Payback</h3>
 	<div class="iou-controls btn-group">
 		<button ng-click="calculateIous(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch the Numbers</button>
 		<button ng-click="ious={}" type="button" class="btn btn-large btn-default">Clear</button>

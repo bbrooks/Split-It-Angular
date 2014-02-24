@@ -1,4 +1,5 @@
 <ul class="purchases list-group">
+	<li class="list-group-item" ng-if="purchases.length < 1"><em><small>No purchases to show...</small></em></li>
 	<li class="purchase list-group-item" ng-repeat="purchase in purchases track by purchase.uuid">
 		<div class="row">
 			<div class="col-xs-9">

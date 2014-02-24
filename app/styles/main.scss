@@ -23,12 +23,16 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 }
 
 
-.list-group-item.ng-enter { right: 999px; }        /* starting animations for enter */
-.list-group-item.ng-enter-active { right: 0; } /* terminal animations for enter */
-.list-group-item.ng-leave { left: 0; }        /* starting animations for leave */
-.list-group-item.ng-leave-active { left: 999px; } /* terminal animations for leave */
+.purchases-date-controls{
+	margin-bottom: 10px;
+}
+
+.list-group-item.ng-enter { opacity: 0; }        /* starting animations for enter */
+.list-group-item.ng-enter-active { opacity: 1; } /* terminal animations for enter */
+.list-group-item.ng-leave { opacity: 1; }        /* starting animations for leave */
+.list-group-item.ng-leave-active { opacity: 0; } /* terminal animations for leave */
 
 .list-group-item{
    -webkit-transition:0.5s ease-out all;
-   position: relative;
+   opacity: 1;
 }

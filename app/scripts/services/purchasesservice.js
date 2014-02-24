@@ -6,14 +6,62 @@ angular.module('splitItApp')
     // Set up the database connection
     var purchasesCollection = apigeeCollection('purchases');
 
-    // Initial population of data from DB
-    purchasesCollection.all().then(function( purchases ){
-      PurchasesService.purchases = purchases;
-    });
-
     var PurchasesService = {
 
       purchases: [],
+      startTime: undefined,
+      endTime: undefined,
+
+      /**
+       * Sets the date range for all purchase queries
+       * @param  {str} startDate Date string to mark the beginning of the range
+       * @param  {[type]} endDate   Date string to mark the end of the range
+       */
+      setDateRange: function( startDate, endDate ){
+
+        if( typeof startDate === 'undefined' || typeof endDate === 'undefined' )
+          return;
+
+        //@Todo: check for date validity;
+        this.startTime = this.dateCorrected( startDate ).setHours(0,0,0,0);
+        this.endTime = this.dateCorrected( endDate ).setHours(23, 59, 59);
+
+      },
+
+      /**
+       * Gets purchases in the configured date range
+       * @return {promise} Promise resolves with an array of purchases
+       */
+      getPurchases: function(){
+
+        var start = parseInt(this.startTime, 10);
+        var end = parseInt(this.endTime, 10);
+
+        if( isNaN(start) || isNaN(end) )
+          return false;
+
+        var queryStr = 'select * where purchaseDate > ' + start + ' && purchaseDate < ' + end;
+
+        return purchasesCollection.query( queryStr ).then(
+          function( purchases ){
+            PurchasesService.purchases = purchases;
+          }
+        );
+
+      },
+
+      /**
+       * Accounts for timezone in a provided dateStr
+       * @param  {str} dateStr
+       * @return {Date} 
+       * @todo  DRY with date-input directive
+       */
+      dateCorrected: function( dateStr ){
+        var timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
+        var timeStamp = new Date(dateStr).getTime();
+        var correctedDate = new Date( timeStamp + timezoneOffset );
+        return correctedDate; 
+      },
 
       /**
        * Add a purchase to the purchases list
@@ -27,7 +75,7 @@ angular.module('splitItApp')
         return purchasesCollection.add(purchase)
         .then(
           function( purchaseAdded ){
-            this.purchases.push(purchaseAdded)
+            this.getPurchases();
           }.bind(this), 
           function( err ){
             alert( err );
@@ -50,9 +98,7 @@ angular.module('splitItApp')
         return purchasesCollection.remove(purchase.uuid)
         .then(
           function(){
-            this.purchases = _.reject(this.purchases, function(aPurchase){
-              return purchase.uuid == aPurchase.uuid; 
-            });
+            this.getPurchases();
           }.bind(this),
           function( err ){
             alert( err );
@@ -73,40 +119,13 @@ angular.module('splitItApp')
         return purchasesCollection.update( purchase )
         .then(
           function( updatedPurchase ){
-            var index = this.getPurchaseIndexByUuid( updatedPurchase.uuid );
-            this.purchases[index] = updatedPurchase;
+            this.getPurchases();
           }.bind(this),
           function( err ){
             alert(err);
           }
         );
 
-      },
-
-      addLocalPurchase: function(purchase){
-        // Get highest uuid
-        var lastPurchase = _.max(this.purchases, function(purchase){ return purchase.uuid } );
-        
-        if( lastPurchase < 0 ){
-          lastPurchase = { uuid: 0 };
-        }
-
-        //Assign next
-        purchase.uuid = parseInt(lastPurchase.uuid, 10)+1;
-        
-        //Add to array
-        this.purchases.push(purchase);
-      },
-
-      removeLocalPurchase: function(purchaseToRemove){
-        this.purchases = _.reject(this.purchases, function(purchase){
-          return purchase.uuid == purchaseToRemove.uuid 
-        });
-      },
-
-      editLocalPurchase: function(purchase){
-        var matchingPurchaseIndex = this.getPurchaseIndexByUuid( purchase.uuid );
-        this.purchases[matchingPurchaseIndex] = purchase;
       },
 
       getPurchaseIndexByUuid: function( uuid ){

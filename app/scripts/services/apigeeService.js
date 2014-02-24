@@ -230,7 +230,7 @@ angular.module('apigee', [])
 							queryPromise.resolve(data.entities);
 						},
 						function(){
-							queryPromise.reject('Query Failed');
+							queryPromise.reject('Apigee Error: failed to query collection');
 						}
 					);
 
