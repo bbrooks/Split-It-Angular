@@ -25,7 +25,7 @@
 			<!-- todo: this should be a custom directive -->
 			<label for="purchaser" class="col-sm-2 control-label">Who paid?</label>
 			<div class="col-sm-10">
-				<select class="form-control" name="purchaser" ng-model="aPurchase.purchaser" required ng-options="person.uuid as person.fullName for person in people"></select>
+				<select class="form-control" name="purchaser" ng-model="aPurchase.purchaser" required ng-options="person.uuid as person.fullName for person in peopleService.people"></select>
 			</div>
 		</div>
 
@@ -42,7 +42,7 @@
 			<label for="splitBetween" class="col-sm-2 control-label">Split it Between:</label>
 			<div class="col-sm-10">
 				<!-- todo: this should be a custom directive -->
-				<select class="form-control" name="splitBetween" ng-model="aPurchase.splitBetween" required multiple ng-options="person.uuid as person.fullName for person in people"></select>
+				<select class="form-control" name="splitBetween" ng-model="aPurchase.splitBetween" required multiple ng-options="person.uuid as person.fullName for person in peopleService.people"></select>
 				<p ng-show="purchaseForm.splitBetween.$valid" class="help-block">defaults to everyone</p>
 				<p ng-show="!purchaseForm.splitBetween.$pristine && !purchaseForm.splitBetween.$valid" class="help-block">Choose some people.</p>
 			</div>

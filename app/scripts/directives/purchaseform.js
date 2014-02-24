@@ -16,8 +16,9 @@ angular.module('splitItApp')
 
 .controller('PurchaseFormCtrl', function($scope, peopleService, purchasesService){
 
+	$scope.peopleService = peopleService;
 	$scope.people = peopleService.people;
-
+	
 	// Define default form data
 	var purchaseFormDefaultState = {
 		purchaseDate: new Date().getTime(),
