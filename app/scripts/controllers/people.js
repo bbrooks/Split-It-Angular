@@ -6,8 +6,11 @@ angular.module('splitItApp')
   	$scope.peopleData = peopleService;
 
   	$scope.addPerson = function( newPerson ){
-  		peopleService.addPerson( angular.copy( newPerson ) );
-  		newPerson.fullName = '';
+  		return peopleService.addPerson( angular.copy( newPerson ) ).then(
+  			function(){
+  				newPerson.fullName = '';
+  			}
+  		);
   	};
 
   });
