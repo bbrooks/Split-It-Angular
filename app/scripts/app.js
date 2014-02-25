@@ -7,6 +7,7 @@ angular.module('splitItApp', [
   'ngAnimate',
   'apigee'
 ])
+  .value('APIGEE_CONFIG', {})
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

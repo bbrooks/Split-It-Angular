@@ -3,6 +3,10 @@
 angular.module('apigee', [])
 	.factory('apigeeService', function( APIGEE_CONFIG, $http, $q ) {
 
+		if(!APIGEE_CONFIG.hasOwnProperty('baseUrl')){
+			alert('Looks like you haven\'t created a config file yet. Check out apigee-config.sample.js for the template.');
+		}
+
 		var projectBaseUrl = APIGEE_CONFIG.baseUrl + APIGEE_CONFIG.orgName + '/' + APIGEE_CONFIG.appName + '/';
 
 		return {
