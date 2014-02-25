@@ -217,7 +217,8 @@ angular.module('apigee', [])
 				
 				var requestConfig = {
 					params:{
-						ql: queryStr
+						ql: queryStr,
+						limit: 99
 					}
 				};
 

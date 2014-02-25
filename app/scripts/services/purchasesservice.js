@@ -43,7 +43,7 @@ angular.module('splitItApp')
         if( end <= start )
           return;
 
-        var queryStr = 'select * where purchaseDate > ' + start + ' && purchaseDate < ' + end;
+        var queryStr = 'select * where purchaseDate >= ' + start + ' && purchaseDate <= ' + end;
 
         return purchasesCollection.query( queryStr ).then(
           function( purchases ){
