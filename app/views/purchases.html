@@ -1,47 +1,54 @@
-<section class="add-purchase">
-	<h3>Add Purchases</h3>
-	<purchase-form submit-label="Add"></purchase-form>
-</section>
+<div class="alert alert-info" ng-if="initialPeopleLoaded && initialPurchasesLoaded &&!peopleData.people.length">
+	<h4>Looks like you've got no people!</h4>
+	<p>Head over to the people page and add some people to get started.</p>
+	<p><a href="#people" class="btn btn-info">Add People</a></p>
+</div>
+<div ng-if="initialPeopleLoaded && initialPurchasesLoaded && peopleData.people.length">
+	<section class="add-purchase">
+		<h3>Add Purchases</h3>
+		<purchase-form submit-label="Add"></purchase-form>
+	</section>
 
-<hr>
+	<hr>
 
-<section class="purchases">
-	<div class="purchases-date-controls">
-	<h3>Find Purchases By Date</h3>
-		<form>
-			<div class="row">
-				<div class="col-sm-4">
-					<date-input class="form-control" ng-model="startDate"></date-input>
-				</div>
-				<div class="pull-left">
-					&mdash;
-				</div>
-				<div class="col-sm-4">
-					<date-input class="form-control pull-left" ng-model="endDate"></date-input>
-				</div>
-				<div class="col-sm-2">
-					<div class="btn-group">
-						<button type="submit" class="btn btn-primary" ng-click="getPurchasesByDateRange(startDate, endDate)"><span class="glyphicon glyphicon-refresh"></span></button>
-						<button type="button" class="btn btn-default" ng-click="clearPurchases()"><span class="glyphicon glyphicon-remove"></span></button>
+	<section class="purchases">
+		<div class="purchases-date-controls">
+		<h3>Find Purchases By Date</h3>
+			<form>
+				<div class="row">
+					<div class="col-sm-4">
+						<date-input class="form-control" ng-model="startDate"></date-input>
+					</div>
+					<div class="pull-left">
+						&mdash;
+					</div>
+					<div class="col-sm-4">
+						<date-input class="form-control pull-left" ng-model="endDate"></date-input>
+					</div>
+					<div class="col-sm-2">
+						<div class="btn-group">
+							<button type="submit" class="btn btn-primary" ng-click="getPurchasesByDateRange(startDate, endDate)"><span class="glyphicon glyphicon-refresh"></span></button>
+							<button type="button" class="btn btn-default" ng-click="clearPurchases()"><span class="glyphicon glyphicon-remove"></span></button>
+						</div>
 					</div>
 				</div>
-			</div>
-		</form>
-	</div> <!-- .purchases-date-controls -->
-	<purchase-list purchases="purchaseData.purchases"></purchase-list>
-</section>
+			</form>
+		</div> <!-- .purchases-date-controls -->
+		<purchase-list purchases="purchaseData.purchases"></purchase-list>
+	</section>
 
-<hr>
+	<hr>
 
-<section ng-show="purchaseData.purchases.length > 0">
-<h3>Calculate Payback</h3>
-	<div class="iou-controls btn-group">
-		<button ng-click="calculateIous(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch the Numbers</button>
-		<button ng-click="ious={}" type="button" class="btn btn-large btn-default">Clear</button>
-	</div>
-	<div class="ious">
-		<div class="iou alert alert-info" ng-repeat="iou in ious">
-			{{peopleData.getPersonNameByUuid(iou.borrower)}} owes {{peopleData.getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
+	<section ng-show="purchaseData.purchases.length > 0">
+	<h3>Calculate Payback</h3>
+		<div class="iou-controls btn-group">
+			<button ng-click="calculateIous(purchaseData.purchases)" type="button" class="btn btn-large btn-primary">Crunch the Numbers</button>
+			<button ng-click="ious={}" type="button" class="btn btn-large btn-default">Clear</button>
 		</div>
-	</div>
-</section>
+		<div class="ious">
+			<div class="iou alert alert-info" ng-repeat="iou in ious">
+				{{peopleData.getPersonNameByUuid(iou.borrower)}} owes {{peopleData.getPersonNameByUuid(iou.lender)}} ${{iou.amount}}.
+			</div>
+		</div>
+	</section>
+</div>

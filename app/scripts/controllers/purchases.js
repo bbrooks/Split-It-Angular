@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('splitItApp')
-  .controller('PurchasesCtrl', function ($scope, peopleService, purchasesService, debtSettler) {
+  .controller('PurchasesCtrl', function ($scope, peopleService, purchasesService, debtSettler, $rootScope) {
     
     $scope.purchaseData = purchasesService;
     $scope.peopleData = peopleService;
@@ -13,7 +13,9 @@ angular.module('splitItApp')
 
     //Initial default query for purchases;
     purchasesService.setDateRange($scope.startDate, $scope.endDate);
-    purchasesService.getPurchases();
+    purchasesService.getPurchases().then(function(){
+      $rootScope.initialPurchasesLoaded = true;
+    });
 
     $scope.calculateIous = function(purchases){
       var ious = debtSettler.purchases_to_transfers(purchases);

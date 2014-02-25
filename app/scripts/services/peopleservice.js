@@ -2,7 +2,7 @@
 
   angular.module('splitItApp')
   
-  .factory('peopleService', function (apigeeCollection) {
+  .factory('peopleService', function (apigeeCollection, $rootScope) {
 
     // Set up the database connection
     var peopleCollection = apigeeCollection('people');
@@ -10,6 +10,7 @@
     // Initial population of data from DB
     peopleCollection.all().then(function( people ){
       PeopleService.people = people;
+      $rootScope.initialPeopleLoaded = true;
     });
 
     var PeopleService = {

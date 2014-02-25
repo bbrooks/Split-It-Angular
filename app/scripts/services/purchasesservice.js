@@ -38,7 +38,10 @@ angular.module('splitItApp')
         var end = parseInt(this.endTime, 10);
 
         if( isNaN(start) || isNaN(end) )
-          return false;
+          return;
+
+        if( end <= start )
+          return;
 
         var queryStr = 'select * where purchaseDate > ' + start + ' && purchaseDate < ' + end;
 
