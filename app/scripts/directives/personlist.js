@@ -1,41 +1,41 @@
-'use strict';
+	'use strict';
 
-angular.module('splitItApp')
+	angular.module('splitItApp')
 
- .controller('PersonListCtrl', function($scope, peopleService){
+	.controller('PersonListCtrl', function($scope, peopleService){
 
-    $scope.peopleData = peopleService;
+		$scope.peopleData = peopleService;
 
-    $scope.removePerson = function(person){
-      peopleService.removePerson( person );
-    };
+		$scope.removePerson = function(person){
+			peopleService.removePerson( person );
+		};
 
-    $scope.toggleEdit = function(person){
-      if( person.hasOwnProperty('editMode') && person.editMode ){
-        person.editMode = false;
-      } else {
-        person.editMode = true;
-      }
-    };
+		$scope.toggleEdit = function(person){
+			if( person.hasOwnProperty('editMode') && person.editMode ){
+				person.editMode = false;
+			} else {
+				person.editMode = true;
+			}
+		};
 
-    $scope.editPerson = function(person){
-      
-      if( person.hasOwnProperty('editMode') )
-        delete(person.editMode);
+		$scope.editPerson = function(person){
+			
+			if( person.hasOwnProperty('editMode') )
+				delete(person.editMode);
 
-      peopleService.editPerson( person );
+			peopleService.editPerson( person );
 
-    };
+		};
 
- })
+	})
 
-.directive('personList', function () {
-    return {
-      templateUrl: 'views/personList.html',
-      restrict: 'E',
-      scope: {
-        people: '='
-      },
-      controller: 'PersonListCtrl'
-    };
-  });
+	.directive('personList', function () {
+		return {
+			templateUrl: 'views/personList.html',
+			restrict: 'E',
+			scope: {
+				people: '='
+			},
+			controller: 'PersonListCtrl'
+		};
+	});

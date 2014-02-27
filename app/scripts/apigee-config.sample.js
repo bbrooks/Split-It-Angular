@@ -9,10 +9,10 @@
 
 angular.module('splitItApp')
 
-  .value('APIGEE_CONFIG', {
-    orgName: '',
-    appName: '',
-    username: '',
-    password: '',
-    baseUrl: 'https://api.usergrid.com/'
-  });
+	.value('APIGEE_CONFIG', {
+		orgName: '',
+		appName: '',
+		username: '',
+		password: '',
+		baseUrl: 'https://api.usergrid.com/'
+	});
