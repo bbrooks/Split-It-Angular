@@ -3,6 +3,7 @@
 angular.module('splitItApp', [
 	'ngRoute',
 	'ngAnimate',
+	'ngSanitize',
 	'apigee'
 ])
 	// Empty database config

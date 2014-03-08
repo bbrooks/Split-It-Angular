@@ -8,6 +8,7 @@
     "es5-shim": "~2.1.0",
     "jquery": "~1.10.2",
     "sass-bootstrap": "~3.0.2",
+    "angular-sanitize": "1.2.6",
     "angular-route": "1.2.6",
     "angular-animate": "1.2.12"
   },
