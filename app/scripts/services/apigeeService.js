@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('apigee', [])
-	.factory('apigeeService', function( APIGEE_CONFIG, $http, $q ) {
+	.factory('apigeeService', function( APIGEE_CONFIG, $http, $q, $rootScope ) {
 
-		if(!APIGEE_CONFIG.hasOwnProperty('baseUrl')){
-			alert('Looks like you haven\'t created a config file yet. Check out apigee-config.sample.js for the template.');
+		var isConfigured = APIGEE_CONFIG.hasOwnProperty('baseUrl');
+
+		if( !isConfigured ){
+			$rootScope.localMode = true;
 		}
 
 		var projectBaseUrl = APIGEE_CONFIG.baseUrl + APIGEE_CONFIG.orgName + '/' + APIGEE_CONFIG.appName + '/';
@@ -13,6 +15,7 @@ angular.module('apigee', [])
 			token: null,
 			projectBaseUrl: projectBaseUrl,
 			authUrl: projectBaseUrl + 'token',
+			isConfigured: isConfigured,
 
 			/**
 			 * Gets a user authentication token from Apigee if we haven't already gotten one
@@ -21,10 +24,7 @@ angular.module('apigee', [])
 			getToken: function(){
 
 				if( this.token ){
-					//Todo: is there a more concise way of doing this?
-					var tokenPromise = $q.defer();
-					tokenPromise.resolve(this.token);
-					return tokenPromise.promise;
+					return $q.when(this.token)
 				} else {
 					return this.getNewToken();
 				}
@@ -279,4 +279,169 @@ angular.module('apigee', [])
 
 		return CollectionFactory;
 
-	});
+	}) // apigeeCollection
+
+
+	.factory('localCollection', function ( $q ) {
+
+		/**
+		 * A factory for simulating an apigee collection
+		 * @param {str} collectionName The name of the collection
+		 */
+		function CollectionFactory( collectionName ){
+
+			var Collection = function (data) {
+				angular.extend(this, data);
+			};
+
+			Collection.storageKey = 'split-it-'+collectionName;
+
+			/**
+			 * Get all the items in the collection
+			 * @return {promise} A promise that resolves to an array of items
+			 */
+			Collection.all = function() {
+				return $q.when(Collection.getLocalData());
+			};
+
+			/**
+			 * Adds an item to the collection
+			 * @param  {obj} item JSON object describing an item
+			 * @return {promise} Promise that resolves if the add succeeded
+			 */
+			Collection.add = function( item ){
+				var data = Collection.getLocalData();
+				item = Collection.stripNgKeys( item );
+				item.uuid = Collection.generateUuid();
+				item.created = new Date().getTime();
+				data.push(item);
+				Collection.setLocalData( data );
+				return $q.when(item);
+			};
+
+			/**
+			 * Remove an item from the collection
+			 * @param  {str} uuid The uuid of the entity in the collection to remove/
+			 * @return {promise} A promise that resolves when the remove is complete
+			 */
+			Collection.remove = function( uuid ){
+
+				var data = Collection.getLocalData();
+
+				var matchingItem = _.findWhere( data, {uuid: uuid} );
+
+				if(typeof matchingItem === 'undefined')
+					return $q.reject('Item not found');
+				
+				var index = _.indexOf(data, matchingItem);
+				if (index > -1) {
+					data.splice(index, 1);
+					Collection.setLocalData( data );
+					return $q.when(true);	
+				} else {
+					return $q.reject('Item not found');
+				}
+			};
+
+			/**
+			 * Since we don't have a query engine locally, stub this out
+			 * @param  {str} queryStr Apigee query string
+			 * @return {promise} A promise that resolves to an array of items that match the query
+			 */
+			Collection.query = function(queryStr){
+				return Collection.all();
+			};
+
+			/**
+			 * Updates an item in the collection
+			 * @param  {obj} updatedItem JSON describing the item to be updated. Must include a UUID.
+			 * @return {promise} A promise that resolves successfully if the update completes
+			 */
+			Collection.update = function( updatedItem ){
+
+				var data = Collection.getLocalData();
+
+				updatedItem = Collection.stripNgKeys( updatedItem );
+				var matchingItem = _.findWhere( data, {uuid: updatedItem.uuid} );
+				
+				if(typeof matchingItem === 'undefined')
+					return $q.reject('Item not found');
+
+				updatedItem.created = matchingItem.created;
+				updatedItem.updated = new Date().getTime();
+
+				var index = _.indexOf(data, matchingItem);
+				if (index > -1) {
+					data[index] = updatedItem;
+					Collection.setLocalData( data );
+					return $q.when(true);
+				} else {
+					return $q.reject('Item not found');
+				}
+
+			};
+
+			/**
+			 * Gets the collection stored in localStorage
+			 * @return {array}
+			 */
+			Collection.getLocalData = function(){
+				try{
+					var rawData = localStorage.getItem(Collection.storageKey);
+					if( rawData ){
+						return JSON.parse( rawData );
+					} else {
+						return [];						
+					}
+				} catch(e){
+					return [];
+				}
+			}
+
+			/**
+			 * Sets the collection data
+			 * @param  {array} Collection data
+			 * @return {bool} success or failure
+			 */
+			Collection.setLocalData = function( data ){
+				try{
+					var dataToStore = JSON.stringify(data);
+					localStorage.setItem( Collection.storageKey, dataToStore );
+					return true;
+				}catch(e) {
+					return false;
+				}
+			}
+
+			/**
+			 * Generates a unique ID similar to that given in a database
+			 * @return {string}
+			 */
+			Collection.generateUuid = function(){
+				return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+						var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+						return v.toString(16);
+					});
+			}
+
+			/**
+			 * Removes all the keys of an object that start with $
+			 * @param  {object} Original object
+			 * @return {object} Object with no $ keys
+			 */
+			Collection.stripNgKeys = function(object){
+
+				_.each(object,function(value, key, list){
+					if( key[0] === '$' )
+						delete(object[key]);
+				});
+
+				return object;
+			}
+
+			return Collection;
+		}
+
+		return CollectionFactory;
+
+	}); // localCollection

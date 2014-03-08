@@ -7,7 +7,10 @@ angular.module('splitItApp', [
 	'ngAnimate',
 	'apigee'
 ])
+	// Empty database config
 	.value('APIGEE_CONFIG', {})
+
+	// Routes
 	.config(function ($routeProvider) {
 		$routeProvider
 			.when('/', {
@@ -23,6 +26,7 @@ angular.module('splitItApp', [
 			});
 	}) // route config
 
+	// Auto loading animation on http request
 	.config(function($httpProvider){
 		$httpProvider.interceptors.push(function($q, $rootScope, $timeout){
 			return{
