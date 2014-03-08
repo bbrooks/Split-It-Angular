@@ -9,7 +9,7 @@ angular.module('splitItApp', [
 	.value('APIGEE_CONFIG', {})
 
 	// Routes
-	.config(function ($routeProvider) {
+	.config([ '$routeProvider', function ($routeProvider) {
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/purchases.html',
@@ -22,7 +22,7 @@ angular.module('splitItApp', [
 			.otherwise({
 				redirectTo: '/'
 			});
-	}) // route config
+	}]) // route config
 
 	// Auto loading animation on http request
 	.config([ '$httpProvider', function($httpProvider){
