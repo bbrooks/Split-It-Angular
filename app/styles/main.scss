@@ -2,6 +2,11 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
 
+
+.container {
+    max-width: 730px;
+}
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -12,6 +17,7 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 .header{
 	overflow: hidden;
 	margin-bottom: 20px;
+	border-bottom: 1px solid $gray-lighter;
 
 	.nav{
 		margin-top: 10px;

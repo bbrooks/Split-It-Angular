@@ -1,11 +1,16 @@
-<div class="alert alert-info" ng-if="initialPeopleLoaded && initialPurchasesLoaded &&!peopleData.people.length">
-	<h4>Looks like you've got no people!</h4>
-	<p>Head over to the people page and add some people to get started.</p>
-	<p><a href="#people" class="btn btn-info">Add People</a></p>
+<div class="jumbotron">
+	<h1>Group Purchases Made Easy</h1>
+	<p class="lead">
+		Split It allows you to take a set of purchases made by different overlapping groups and turn it into a manageable list of IOUs.
+	</p>
+	<p ng-if="initialPeopleLoaded && initialPurchasesLoaded &&!peopleData.people.length">
+		<a href="#people" class="btn btn-lg btn-success">Get Started by Adding People</a>
+	</p>
 </div>
+
 <div ng-if="initialPeopleLoaded && initialPurchasesLoaded && peopleData.people.length">
 	<section class="add-purchase">
-		<h3>Add Purchases</h3>
+		<h3>Add a Purchase</h3>
 		<purchase-form submit-label="Add"></purchase-form>
 	</section>
 
@@ -16,16 +21,16 @@
 		<h3>Find Purchases By Date</h3>
 			<form>
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-xs-4">
 						<date-input class="form-control" ng-model="startDate"></date-input>
 					</div>
 					<div class="pull-left">
 						&mdash;
 					</div>
-					<div class="col-sm-4">
+					<div class="col-xs-4">
 						<date-input class="form-control pull-left" ng-model="endDate"></date-input>
 					</div>
-					<div class="col-sm-2">
+					<div class="col-xs-2">
 						<div class="btn-group">
 							<button type="submit" class="btn btn-primary" ng-click="getPurchasesByDateRange(startDate, endDate)"><span class="glyphicon glyphicon-refresh"></span></button>
 							<button type="button" class="btn btn-default" ng-click="clearPurchases()"><span class="glyphicon glyphicon-remove"></span></button>
