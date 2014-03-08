@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('splitItApp')
-	.controller('PurchasesCtrl', function ($scope, peopleService, purchasesService, debtSettler, $rootScope) {
+	.controller('PurchasesCtrl', ['$scope', 'peopleService', 'purchasesService', 'debtSettler', '$rootScope', function ($scope, peopleService, purchasesService, debtSettler, $rootScope) {
 		
 
 		$scope.purchaseData = purchasesService;
@@ -59,4 +59,4 @@ angular.module('splitItApp')
 
 		};
 
-	});
+	}]);

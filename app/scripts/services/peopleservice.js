@@ -2,7 +2,7 @@
 
 angular.module('splitItApp')
 
-.factory('peopleService', function (apigeeService, apigeeCollection, localCollection, $rootScope) {
+.factory('peopleService', [ 'apigeeService', 'apigeeCollection', 'localCollection', '$rootScope', function (apigeeService, apigeeCollection, localCollection, $rootScope) {
 
 	if( apigeeService.isConfigured ){
 		// Set up the database connection
@@ -135,4 +135,4 @@ angular.module('splitItApp')
 
 	return PeopleService;
 
-});
+}]);

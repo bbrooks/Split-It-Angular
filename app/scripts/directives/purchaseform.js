@@ -14,7 +14,7 @@ angular.module('splitItApp')
 	};
 })
 
-.controller('PurchaseFormCtrl', function($scope, peopleService, purchasesService){
+.controller('PurchaseFormCtrl', ['$scope', 'peopleService', 'purchasesService', function($scope, peopleService, purchasesService){
 
 	$scope.peopleService = peopleService;
 	$scope.people = peopleService.people;
@@ -81,4 +81,4 @@ angular.module('splitItApp')
 		return formData;
 	}
 
-});
+}]);

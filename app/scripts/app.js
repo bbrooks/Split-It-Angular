@@ -1,8 +1,6 @@
 'use strict';
 
 angular.module('splitItApp', [
-	'ngResource',
-	'ngSanitize',
 	'ngRoute',
 	'ngAnimate',
 	'apigee'
@@ -27,7 +25,7 @@ angular.module('splitItApp', [
 	}) // route config
 
 	// Auto loading animation on http request
-	.config(function($httpProvider){
+	.config([ '$httpProvider', function($httpProvider){
 		$httpProvider.interceptors.push(function($q, $rootScope, $timeout){
 			return{
 				request: function(config){
@@ -50,4 +48,4 @@ angular.module('splitItApp', [
 				},
 			};
 		});
-	}); // http interceptor config
+	}]); // http interceptor config

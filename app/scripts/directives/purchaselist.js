@@ -12,7 +12,7 @@ angular.module('splitItApp')
 	};
 })
 
-.controller('purchaseListCtrl', function($scope, peopleService, purchasesService){
+.controller('purchaseListCtrl', [ '$scope', 'peopleService', 'purchasesService', function($scope, peopleService, purchasesService){
 
 	$scope.purchaseData = purchasesService;
 	$scope.peopleData = peopleService;
@@ -25,4 +25,4 @@ angular.module('splitItApp')
 		}
 	};
 
-});
+}]);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('splitItApp')
-.factory('purchasesService', function (apigeeService, apigeeCollection, localCollection) {
+.factory('purchasesService', ['apigeeService', 'apigeeCollection', 'localCollection', function (apigeeService, apigeeCollection, localCollection) {
 
 		if( apigeeService.isConfigured ) {
 			// Set up the database connection
@@ -159,4 +159,4 @@ angular.module('splitItApp')
 
 		return PurchasesService;
 
-	});
+	}]);

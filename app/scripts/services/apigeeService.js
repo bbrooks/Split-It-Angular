@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('apigee', [])
-	.factory('apigeeService', function( APIGEE_CONFIG, $http, $q, $rootScope ) {
+	.factory('apigeeService', [ 'APIGEE_CONFIG', '$http', '$q', '$rootScope', function( APIGEE_CONFIG, $http, $q, $rootScope ) {
 
 		var isConfigured = APIGEE_CONFIG.hasOwnProperty('baseUrl');
 
@@ -62,9 +62,9 @@ angular.module('apigee', [])
 			} // getNewToken()
 		};
 
-	}) // apigeeService
+	}]) // apigeeService
 
-	.factory('apigeeCollection', function ( $q, $http, apigeeService) {
+	.factory('apigeeCollection', [ '$q', '$http', 'apigeeService', function ( $q, $http, apigeeService ) {
 
 		/**
 		 * A factory for creating apigee collections with the methoda all, query, add, remove, update
@@ -279,10 +279,10 @@ angular.module('apigee', [])
 
 		return CollectionFactory;
 
-	}) // apigeeCollection
+	}]) // apigeeCollection
 
 
-	.factory('localCollection', function ( $q ) {
+	.factory('localCollection', [ '$q', function ( $q ) {
 
 		/**
 		 * A factory for simulating an apigee collection
@@ -444,4 +444,4 @@ angular.module('apigee', [])
 
 		return CollectionFactory;
 
-	}); // localCollection
+	}]); // localCollection

@@ -2,7 +2,7 @@
 
 	angular.module('splitItApp')
 
-	.controller('PersonListCtrl', function($scope, peopleService){
+	.controller('PersonListCtrl', ['$scope','peopleService', function($scope, peopleService){
 
 		$scope.peopleData = peopleService;
 
@@ -27,7 +27,7 @@
 
 		};
 
-	})
+	}])
 
 	.directive('personList', function () {
 		return {

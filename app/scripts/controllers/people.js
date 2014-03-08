@@ -2,7 +2,7 @@
 
 angular.module('splitItApp')
 
-	.controller('PeopleCtrl', function ($scope, peopleService) {
+	.controller('PeopleCtrl', ['$scope', 'peopleService', function ($scope, peopleService) {
 
 		$scope.peopleData = peopleService;
 		/**
@@ -18,4 +18,4 @@ angular.module('splitItApp')
 			);
 		};
 
-	});
+	}]);
