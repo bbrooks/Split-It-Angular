@@ -4,7 +4,7 @@ angular.module('splitItApp')
 .directive('purchaseList', function () {
 	return {
 		controller: 'purchaseListCtrl',
-		templateUrl: 'views/purchaselist.html',
+		templateUrl: 'views/purchaseList.html',
 		restrict: 'E',
 		scope:{
 			purchases: '='

@@ -4,7 +4,7 @@ angular.module('splitItApp')
 
 .directive('purchaseForm', function () {
 	return {
-		templateUrl: 'views/purchaseform.html',
+		templateUrl: 'views/purchaseForm.html',
 		restrict: 'E',
 		scope: {
 			submitLabel: '@',
