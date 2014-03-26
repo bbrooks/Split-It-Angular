@@ -50,23 +50,19 @@ describe('Service: debtSettler', function () {
 
   }));
 
-  it('Person 3 should owe Person 2 $6', function(){
-    expect(transfers['2_3'].lender).toBe("2");
-    expect(transfers['2_3'].borrower).toBe("3");
-    expect(transfers['2_3'].amount).toBe(6);
+  it('Person 2 should owe Person 1 $76', function(){
+    var transfer = _.findWhere(transfers, { borrower: "2" });
+    expect(transfer.lender).toBe("1");
+    expect(transfer.borrower).toBe("2");
+    expect(transfer.amount).toBe(76);
   });
 
 
-  it('Person 2 should owe Person 1 $63', function(){
-    expect(transfers['1_2'].lender).toBe("1");
-    expect(transfers['1_2'].borrower).toBe("2");
-    expect(transfers['1_2'].amount).toBe(63);  
-  });
-
-  it('Person 3 should owe Person 1 $13', function(){
-    expect(transfers['1_3'].lender).toBe("1");
-    expect(transfers['1_3'].borrower).toBe("3");
-    expect(transfers['1_3'].amount).toBe(13);    
+  it('Person 3 should owe Person 2 $19', function(){
+    var transfer = _.findWhere(transfers, { borrower: "3" });
+    expect(transfer.lender).toBe("2");
+    expect(transfer.borrower).toBe("3");
+    expect(transfer.amount).toBe(19); 
   });
 
 });

@@ -6,7 +6,7 @@ angular.module('splitItApp')
 
 		$scope.purchaseData = purchasesService;
 		$scope.peopleData = peopleService;
-		$scope.ious = {};
+		$scope.ious = [];
 
 		// Default search dates to beginning and end of month
 		$scope.startDate = new Date( new Date().getFullYear(), new Date().getMonth(), 1).getTime();
@@ -25,8 +25,8 @@ angular.module('splitItApp')
 			var ious = debtSettler.purchases_to_transfers(purchases);
 			
 			// Round dollar amounts to two decimal points
-			_.each(ious, function(value, key){
-				ious[key].amount = Math.round(ious[key].amount * 100)/100;
+			_.each(ious, function(iou, i){
+				ious[i].amount = Math.round(iou.amount * 100)/100;
 			});
 
 			$scope.ious = ious;

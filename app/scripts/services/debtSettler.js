@@ -8,7 +8,7 @@ angular.module('splitItApp')
       /**
        * Takes an array of purchases and scrunches them
        * down to the smallest number of transfers between
-       * two people required to settle all the debts
+       * people required to settle all the debts
        * 
        * @param  array n array of purchases ex.
        * { description: 'Spaceship', cost: 9000000, purchaser: 'person-uuid-1', splitBetween: ['person-uuid-1','person-uuid-2'] }
@@ -27,38 +27,70 @@ angular.module('splitItApp')
           master_ious = _.flatten(master_ious);
         });
 
-        // Sum up ious
-        var ious_summed = {};
+        // Calculate total balances for individuals
+        var balances = {};
 
         _.each(master_ious, function (iou) {
-          var iou_name = iou.borrower + '_' + iou.lender;
 
-          if (!ious_summed.hasOwnProperty(iou_name)) {
-            ious_summed[iou_name] = {
-              amount: 0,
-              lender: iou.lender,
-              borrower: iou.borrower
-            };
-          }
+          if( ! balances.hasOwnProperty(iou.lender) )
+            balances[iou.lender] = 0;
 
-          ious_summed[iou_name]['amount'] += iou.amount;
+          if( ! balances.hasOwnProperty(iou.borrower) )
+            balances[iou.borrower] = 0;
+
+          balances[iou.lender] += iou.amount;
+
+          balances[iou.borrower] -= iou.amount;
 
         });
 
-        // Reverse names for those with negative ious
-        _.each(ious_summed, function (iou, key) {
+        // Turn into arrays of people for easier sorting      
+        var lenders = [];
+        var borrowers = [];
+        _.each(balances, function(balance, id){
+          var person = {id: id, balance: balance};
 
-          if (iou.amount > 0) return;
-
-          var new_borrower = iou.lender,
-            new_lender = iou.borrower;
-
-          ious_summed[key]['lender'] = new_lender;
-          ious_summed[key]['borrower'] = new_borrower;
-          ious_summed[key]['amount'] = iou.amount * -1;
+          if( balance > 0 )
+            lenders.push(person);
+          else if ( balance < 0 )
+            borrowers.push(person);
         });
 
-        return ious_summed;
+        // Who owes the most?        
+        var owesMost = _.min(borrowers, function(borrower){ return borrower.balance });
+
+        var condensed_ious = [];
+
+        // Biggest borrower will pay all lenders
+        _.each(lenders, function(lender){
+          
+          var iou = {
+            lender: lender.id,
+            borrower: owesMost.id,
+            amount: lender.balance
+          };
+
+          condensed_ious.push(iou);
+
+        });
+
+        //Each borrower will pay biggest ower
+        _.each(borrowers, function(borrower){
+
+          if( owesMost.id == borrower.id )
+            return;
+          
+          var iou = {
+            lender: owesMost.id,
+            borrower: borrower.id,
+            amount: Math.abs(borrower.balance)
+          };
+
+          condensed_ious.push(iou);
+
+        });
+
+        return condensed_ious;
 
       },
 
